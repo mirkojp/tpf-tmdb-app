@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import fetchGenres from "./fetchGenres.jsx";
+import fetchGenres from "./FetchGenres.jsx";
 
 const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
     const [genres, setGenres] = useState([]);
