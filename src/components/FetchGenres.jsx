@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
-const BASE_URL = process.env.REACT_APP_TMDB_APP_BASE_URL;
+const API_KEY = process.env.VITE_TMDB_API_KEY;
+const BASE_URL = process.env.VITE_TMDB_APP_BASE_URL;
 
 const fetchGenres = async () => {
     try {
