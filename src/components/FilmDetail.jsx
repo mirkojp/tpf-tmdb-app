@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import Header from "./Header.jsx"; 
-import Footer from "./Footer.jsx"; 
+import Header from "./Header.jsx"; // Importando Header prediseñado
+import Footer from "./Footer.jsx"; // Importando Footer prediseñado
 
 const FilmDetail = () => {
     const { id } = useParams(); // Obtener el ID de la película desde la URL
@@ -10,8 +10,8 @@ const FilmDetail = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const API_KEY = process.env.REACT_APP_API_KEY;
-    const BASE_URL = process.env.REACT_APP_BASE_URL;
+    const API_KEY = process.env.TMDB_API_KEY;
+    const BASE_URL = process.env.TMDB_APP_BASE_URL;
 
 
     useEffect(() => {

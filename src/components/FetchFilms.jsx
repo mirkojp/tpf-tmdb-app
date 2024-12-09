@@ -6,8 +6,8 @@ const FetchFilms = ({ searchQuery, selectedGenres }) => {
     const [films, setFilms] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const API_KEY = process.env.REACT_APP_API_KEY;
-    const BASE_URL = process.env.REACT_APP_BASE_URL;
+    const API_KEY = process.env.TMDB_API_KEY;
+    const BASE_URL = process.env.TMDB_APP_BASE_URL;
     const navigate = useNavigate();
 
     //Cambio de Generos o SearchQuery, regresan a pag 1

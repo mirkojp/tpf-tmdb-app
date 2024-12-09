@@ -10,8 +10,8 @@ const TrailerPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const API_KEY = process.env.REACT_APP_API_KEY;
-    const BASE_URL = process.env.REACT_APP_BASE_URL;
+    const API_KEY = process.env.TMDB_API_KEY;
+    const BASE_URL = process.env.TMDB_APP_BASE_URL;
 
     useEffect(() => {
         const fetchTrailer = async () => {
