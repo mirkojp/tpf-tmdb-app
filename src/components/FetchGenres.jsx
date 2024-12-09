@@ -6,7 +6,7 @@ const BASE_URL = "https://api.themoviedb.org/3";
 const fetchGenres = async () => {
     try {
         const response = await axios.get(
-            `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`
+            `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=es-ES`
         );
         return response.data.genres || [];
     } catch (error) {

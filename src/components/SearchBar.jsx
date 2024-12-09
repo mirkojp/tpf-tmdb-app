@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import fetchGenres from "./fetchGenres"; // Adjusted path based on the same directory
+import fetchGenres from "./fetchGenres"; 
 
 const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
     const [genres, setGenres] = useState([]);
@@ -16,8 +16,8 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
         getGenres();
     }, []);
 
+
     useEffect(() => {
-        // Close the dropdown if clicked outside
         const handleClickOutside = (event) => {
             if (genreDropdownRef.current && !genreDropdownRef.current.contains(event.target)) {
                 setIsGenreListVisible(false);
@@ -30,12 +30,15 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
         };
     }, []);
 
+
     const handleSearch = (event) => {
         event.preventDefault();
         const searchQuery = event.target.search.value.trim();
         setSearchQuery(searchQuery);
+        setSelectedGenres(selectedGenreIds); 
     };
 
+    //Maneja añadir y quitar generos
     const handleGenreChange = (genreId) => {
         setSelectedGenreIds((prevSelectedGenres) => {
             if (prevSelectedGenres.includes(genreId)) {
@@ -46,30 +49,27 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
         });
     };
 
+    //Visibilidad de lista de generos
     const handleToggleGenreList = () => {
         setIsGenreListVisible((prevState) => !prevState);
     };
 
-    useEffect(() => {
-        setSelectedGenres(selectedGenreIds);
-    }, [selectedGenreIds, setSelectedGenres]);
-
     return (
-        <div className="bg-black p-4 flex flex-col sm:flex-row justify-center items-center">
+        <div className="bg-[#0d253f] p-4 flex flex-col sm:flex-row justify-center items-center">
             <form onSubmit={handleSearch} className="flex items-center space-x-2">
                 <input
                     type="text"
                     name="search"
-                    placeholder="Search..."
+                    placeholder="Busqueda..."
                     className="p-2 rounded-md text-black"
                 />
                 <div className="relative" ref={genreDropdownRef}>
                     <button
                         type="button"
                         onClick={handleToggleGenreList}
-                        className="bg-[#90cea1] text-black px-4 py-2 rounded-md font-bold hover:bg-[#0d253f]"
+                        className="bg-[#90cea1] text-black px-4 py-2 rounded-md font-bold hover:bg-[#01b4e4]"
                     >
-                        Select Genres
+                        Generos
                     </button>
                     {isGenreListVisible && (
                         <div
@@ -91,9 +91,9 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
                 </div>
                 <button
                     type="submit"
-                    className="bg-[#90cea1] text-black px-4 py-2 rounded-md font-bold hover:bg-[#0d253f]"
+                    className="bg-[#90cea1] text-black px-4 py-2 rounded-md font-bold hover:bg-[#01b4e4]"
                 >
-                    Search
+                    Buscar
                 </button>
             </form>
         </div>

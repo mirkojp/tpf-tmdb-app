@@ -1,6 +1,6 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const FetchFilms = ({ searchQuery, selectedGenres }) => {
     const [films, setFilms] = useState([]);
@@ -8,21 +8,21 @@ const FetchFilms = ({ searchQuery, selectedGenres }) => {
     const [totalPages, setTotalPages] = useState(1);
     const API_KEY = "113e41e17e0b6bd1dcc6191a324046d5";
     const BASE_URL = "https://api.themoviedb.org/3";
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getFilms = async () => {
             try {
-                // Build query with genres
                 const genreString = selectedGenres.join(",");
                 const endpoint = searchQuery
-                    ? `${BASE_URL}/search/movie?api_key=${API_KEY}&language=en-US&query=${searchQuery}&page=${currentPage}&with_genres=${genreString}`
-                    : `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&page=${currentPage}&with_genres=${genreString}`;
+                    ? `${BASE_URL}/search/movie?api_key=${API_KEY}&language=es-ES&query=${searchQuery}&page=${currentPage}&with_genres=${genreString}`
+                    : `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=es-ES&page=${currentPage}&with_genres=${genreString}`;
 
                 const response = await axios.get(endpoint);
                 setFilms(response.data.results);
                 setTotalPages(response.data.total_pages);
             } catch (error) {
-                console.error("Error fetching films:", error);
+                console.error("Error al obtener las películas:", error);
             }
         };
 
@@ -41,54 +41,49 @@ const FetchFilms = ({ searchQuery, selectedGenres }) => {
         }
     };
 
+    const handleFilmClick = (filmId) => {
+        navigate(`/film/${filmId}`);
+    };
+
     return (
         <div>
-            <h1>{searchQuery ? `Results for "${searchQuery}"` : "Popular Films"}</h1>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-5 justify-center mt-4">
                 {films.map((film) => (
                     <div
                         key={film.id}
-                        style={{
-                            border: "1px solid #ccc",
-                            borderRadius: "8px",
-                            padding: "10px",
-                            width: "200px",
-                        }}
+                        className="border border-[#0d253f] bg-[#90cea1] rounded-lg p-4 cursor-pointer"
+                        onClick={() => handleFilmClick(film.id)}
                     >
                         <img
                             src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
                             alt={film.title}
-                            style={{ width: "100%", borderRadius: "4px" }}
+                            className="w-full rounded-md"
                         />
-                        <h3 style={{ fontSize: "16px" }}>{film.title}</h3>
-                        <p>Rating: {film.vote_average}/10</p>
+                        <h3 className="text-lg">{film.title}</h3>
+                        <p>Calificación: {film.vote_average}/10</p>
                     </div>
                 ))}
             </div>
 
-            <div style={{ marginTop: "20px", textAlign: "center" }}>
+            <div className="mt-5 flex justify-center items-center">
                 <button
                     onClick={handlePrevPage}
                     disabled={currentPage === 1}
-                    style={{
-                        marginRight: "10px",
-                        visibility: currentPage === 1 ? "hidden" : "visible",
-                    }}
+                    className="px-6 py-3 rounded-lg font-semibold text-black bg-[#90cea1] disabled:bg-[#A0A9B8] hover:bg-[#01b4e4] transition-colors duration-300"
                 >
-                    &#8592; Prev
+                    &#8592; Anterior
                 </button>
-                <span>
-                    Page {currentPage} of {totalPages}
+
+                <span className="text-lg mx-4 font-semibold text-[#0d253f]">
+                    Página {currentPage} de {totalPages}
                 </span>
+
                 <button
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                        marginLeft: "10px",
-                        visibility: currentPage === totalPages ? "hidden" : "visible",
-                    }}
+                    className="px-6 py-3 rounded-lg font-semibold text-black bg-[#90cea1] disabled:bg-[#A0A9B8] hover:bg-[#01b4e4] transition-colors duration-300"
                 >
-                    &#8594; Next
+                    Siguiente &#8594;
                 </button>
             </div>
         </div>
