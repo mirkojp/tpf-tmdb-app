@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import Header from "./Header.jsx"; // Importando Header prediseñado
-import Footer from "./Footer.jsx"; // Importando Footer prediseñado
+import Header from "./Header"; // Importando Header prediseñado
+import Footer from "./Footer"; // Importando Footer prediseñado
 
 const TrailerPage = () => {
     const { id } = useParams(); 
     const [trailerKey, setTrailerKey] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const API_KEY = process.env.VITE_TMDB_API_KEY;
-    const BASE_URL = process.env.VITE_TMDB_APP_BASE_URL;
+    const API_KEY = import.meta.env.VITE_TMDB_API_KEY
+    const BASE_URL = "https://api.themoviedb.org/3"
+
     useEffect(() => {
         const fetchTrailer = async () => {
             try {

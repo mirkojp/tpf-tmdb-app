@@ -6,8 +6,8 @@ const FetchFilms = ({ searchQuery, selectedGenres }) => {
     const [films, setFilms] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const API_KEY = process.env.VITE_TMDB_API_KEY;
-    const BASE_URL = process.env.VITE_TMDB_APP_BASE_URL;
+    const API_KEY = import.meta.env.VITE_TMDB_API_KEY
+    const BASE_URL = "https://api.themoviedb.org/3"
     const navigate = useNavigate();
 
     //Cambio de Generos o SearchQuery, regresan a pag 1
