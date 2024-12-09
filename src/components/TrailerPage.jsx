@@ -9,7 +9,7 @@ const TrailerPage = () => {
     const [trailerKey, setTrailerKey] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const API_KEY = import.meta.env.VITE_TMDB_API_KEY
+    const API_KEY = "113e41e17e0b6bd1dcc6191a324046d5"
     const BASE_URL = "https://api.themoviedb.org/3"
 
     useEffect(() => {
