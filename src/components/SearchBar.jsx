@@ -35,14 +35,14 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
     const handleSearch = (event) => {
         event.preventDefault();
         const searchQuery = event.target.search.value.trim();
-
         // Establece el término de búsqueda y selecciona los géneros
         setSearchQuery(searchQuery);
-        setSelectedGenres([selectedGenreIds]); // Crea una nueva referencia para disparar el efecto
+        setSelectedGenres([...selectedGenreIds]); // Crea una nueva referencia para disparar el efecto
     };
 
     //Maneja añadir y quitar generos
     const handleGenreChange = (genreId) => {
+        
         setSelectedGenreIds((prevSelectedGenres) => {
             if (prevSelectedGenres.includes(genreId)) {
                 return prevSelectedGenres.filter((id) => id !== genreId);
