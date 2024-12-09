@@ -6,9 +6,15 @@ const FetchFilms = ({ searchQuery, selectedGenres }) => {
     const [films, setFilms] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const API_KEY = "113e41e17e0b6bd1dcc6191a324046d5";
-    const BASE_URL = "https://api.themoviedb.org/3";
+    const API_KEY = process.env.REACT_APP_API_KEY;
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     const navigate = useNavigate();
+
+    //Cambio de Generos o SearchQuery, regresan a pag 1
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery, selectedGenres]);
+
 
     useEffect(() => {
         const getFilms = async () => {
@@ -69,7 +75,7 @@ const FetchFilms = ({ searchQuery, selectedGenres }) => {
                 <button
                     onClick={handlePrevPage}
                     disabled={currentPage === 1}
-                    className="px-6 py-3 rounded-lg font-semibold text-black bg-[#90cea1] disabled:bg-[#A0A9B8] hover:bg-[#01b4e4] transition-colors duration-300"
+                    className="px-6 py-3 rounded-lg font-semibold text-black bg-[#90cea1] disabled:bg-[#A0A9B8] transition-colors duration-300"
                 >
                     &#8592; Anterior
                 </button>
@@ -81,7 +87,7 @@ const FetchFilms = ({ searchQuery, selectedGenres }) => {
                 <button
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    className="px-6 py-3 rounded-lg font-semibold text-black bg-[#90cea1] disabled:bg-[#A0A9B8] hover:bg-[#01b4e4] transition-colors duration-300"
+                    className="px-6 py-3 rounded-lg font-semibold text-black bg-[#90cea1] disabled:bg-[#A0A9B8] transition-colors duration-300"
                 >
                     Siguiente &#8594;
                 </button>

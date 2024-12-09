@@ -10,9 +10,8 @@ const FilmDetail = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const API_KEY = "113e41e17e0b6bd1dcc6191a324046d5";
-    const BASE_URL = "https://api.themoviedb.org/3";
-
+    const API_KEY = process.env.REACT_APP_API_KEY;
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     useEffect(() => {
         const fetchFilmDetail = async () => {
             try {

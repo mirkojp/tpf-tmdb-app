@@ -28,6 +28,7 @@ import { useNavigate } from "react-router-dom"; // For navigation
 const Main = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedGenres, setSelectedGenres] = useState([]);
+    
     const navigate = useNavigate(); // Hook for navigation
 
     // Function to navigate to film detail page

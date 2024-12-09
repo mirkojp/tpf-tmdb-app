@@ -16,7 +16,7 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
         getGenres();
     }, []);
 
-
+    
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (genreDropdownRef.current && !genreDropdownRef.current.contains(event.target)) {
