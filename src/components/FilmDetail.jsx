@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import Header from "./Header"; // Importando Header prediseñado
-import Footer from "./Footer"; // Importando Footer prediseñado
+import Header from "./Header.jsx"; 
+import Footer from "./Footer.jsx"; 
 
 const FilmDetail = () => {
     const { id } = useParams(); // Obtener el ID de la película desde la URL

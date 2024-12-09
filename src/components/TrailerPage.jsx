@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import Header from "./Header"; // Importando Header prediseñado
-import Footer from "./Footer"; // Importando Footer prediseñado
+import Header from "./Header.jsx"; // Importando Header prediseñado
+import Footer from "./Footer.jsx"; // Importando Footer prediseñado
 
 const TrailerPage = () => {
     const { id } = useParams(); 
