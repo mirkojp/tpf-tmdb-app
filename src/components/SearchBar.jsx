@@ -38,6 +38,8 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
         // Establece el término de búsqueda y selecciona los géneros
         setSearchQuery(searchQuery);
         setSelectedGenres([...selectedGenreIds]); // Crea una nueva referencia para disparar el efecto
+        // console.log("hi")
+        // console.log(selectedGenreIds)
     };
 
     //Maneja añadir y quitar generos
