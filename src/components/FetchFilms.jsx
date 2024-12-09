@@ -75,7 +75,7 @@ const FetchFilms = ({ searchQuery, selectedGenres }) => {
                 <button
                     onClick={handlePrevPage}
                     disabled={currentPage === 1}
-                    className="px-6 py-3 rounded-lg font-semibold text-black bg-[#90cea1] disabled:bg-[#A0A9B8] transition-colors duration-300"
+                    className="px-6 py-3 rounded-lg font-semibold text-black bg-[#90cea1] disabled:bg-[#A0A9B8] hover:bg-[#01b4e4] transition-colors duration-300"
                 >
                     &#8592; Anterior
                 </button>
@@ -87,7 +87,7 @@ const FetchFilms = ({ searchQuery, selectedGenres }) => {
                 <button
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    className="px-6 py-3 rounded-lg font-semibold text-black bg-[#90cea1] disabled:bg-[#A0A9B8] transition-colors duration-300"
+                    className="px-6 py-3 rounded-lg font-semibold text-black bg-[#90cea1] disabled:bg-[#A0A9B8] hover:bg-[#01b4e4] transition-colors duration-300"
                 >
                     Siguiente &#8594;
                 </button>
