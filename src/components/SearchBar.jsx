@@ -36,9 +36,9 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
         event.preventDefault();
         const searchQuery = event.target.search.value.trim();
 
-
+        // Establece el término de búsqueda y selecciona los géneros
         setSearchQuery(searchQuery);
-        setSelectedGenres([...selectedGenreIds]); // Forzar una nueva referencia
+        setSelectedGenres([selectedGenreIds]); // Crea una nueva referencia para disparar el efecto
     };
 
     //Maneja añadir y quitar generos
@@ -52,6 +52,8 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
         });
     };
 
+
+    
     //Visibilidad de lista de generos
     const handleToggleGenreList = () => {
         setIsGenreListVisible((prevState) => !prevState);

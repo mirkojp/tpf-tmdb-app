@@ -59,6 +59,17 @@ const FilmDetail = () => {
                     <p className="text-xl font-semibold text-orange-500 mb-4">Calificación: {film.vote_average}/10</p>
                     <p className="text-lg text-gray-800">{film.overview}</p>
 
+                    <div className="mb-4">
+                        <h3 className="font-semibold text-lg text-gray-700">Géneros:</h3>
+                        <ul className="flex flex-wrap gap-2">
+                            {film.genres.map((genre) => (
+                                <li key={genre.id} className="text-black px-4 py-2 ">
+                                    {genre.name}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
                     {/* Enlace para ir a la página del tráiler */}
                     <div className="mt-4 flex space-x-4">
                         <Link
