@@ -35,8 +35,10 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
     const handleSearch = (event) => {
         event.preventDefault();
         const searchQuery = event.target.search.value.trim();
+
+
         setSearchQuery(searchQuery);
-        setSelectedGenres(selectedGenreIds); 
+        setSelectedGenres([...selectedGenreIds]); // Forzar una nueva referencia
     };
 
     //Maneja añadir y quitar generos
