@@ -42,7 +42,7 @@ const FilmDetail = () => {
     if (error) return <p className="text-center text-red-500">{error}</p>;
 
     return (
-        <div>
+        <div className="flex flex-col min-h-screen">
             <Header /> {/* Mostrar el Header prediseñado */}
 
             <div className="flex flex-col md:flex-row justify-center items-start gap-8 p-8 bg-gray-100 rounded-lg shadow-lg">

@@ -5,12 +5,12 @@ import Header from "./Header"; // Importando Header prediseñado
 import Footer from "./Footer"; // Importando Footer prediseñado
 
 const TrailerPage = () => {
-    const { id } = useParams(); 
+    const { id } = useParams();
     const [trailerKey, setTrailerKey] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const API_KEY = "113e41e17e0b6bd1dcc6191a324046d5"
-    const BASE_URL = "https://api.themoviedb.org/3"
+    const API_KEY = "113e41e17e0b6bd1dcc6191a324046d5";
+    const BASE_URL = "https://api.themoviedb.org/3";
 
     useEffect(() => {
         const fetchTrailer = async () => {
@@ -40,15 +40,17 @@ const TrailerPage = () => {
         fetchTrailer();
     }, [id]);
 
-    if (loading) return <p className="text-center">Cargando...</p>;
-    if (error) return <p className="text-center text-red-500">{error}</p>;
-
     return (
-        <div>
-            <Header /> 
+        <div className="flex flex-col min-h-screen"> {/* Aplicamos flexbox y mínimo tamaño de pantalla */}
+            <Header /> {/* Header siempre visible */}
 
-            <div className="flex flex-col items-center p-8 bg-gray-100 rounded-lg shadow-lg">
-                {trailerKey ? (
+            <div className="flex flex-col items-center p-8 bg-gray-100 rounded-lg shadow-lg flex-grow">
+                {/* Mostrar tráiler si está disponible, sino mensaje de error */}
+                {loading ? (
+                    <p className="text-center">Cargando...</p>
+                ) : error ? (
+                    <p className="text-center text-red-500">{error}</p>
+                ) : trailerKey ? (
                     <div className="w-full max-w-5xl aspect-video">
                         <iframe
                             src={`https://www.youtube.com/embed/${trailerKey}`}
@@ -62,6 +64,8 @@ const TrailerPage = () => {
                 ) : (
                     <p className="text-gray-600">Tráiler no disponible</p>
                 )}
+
+                {/* Botones siempre visibles */}
                 <div className="mt-4 flex justify-center space-x-4">
                     <Link
                         to="/"
@@ -76,11 +80,9 @@ const TrailerPage = () => {
                         Volver a la película
                     </Link>
                 </div>
-
-
             </div>
 
-            <Footer /> 
+            <Footer /> {/* Footer siempre visible */}
         </div>
     );
 };

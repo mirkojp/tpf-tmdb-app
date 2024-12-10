@@ -17,7 +17,7 @@ const Main = () => {
         navigate(`/film/${id}`);
     };
     return (
-        <div>
+        <div className="flex flex-col min-h-screen"> {/* Aplicamos flexbox y mínimo tamaño de pantalla */}
             <Header />
             <SearchBar
                 setSearchQuery={setSearchQuery}
@@ -26,7 +26,7 @@ const Main = () => {
             <FetchFilms
                 searchQuery={searchQuery}
                 selectedGenres={selectedGenres}
-                onFilmClick={navigateToFilmDetail} 
+                onFilmClick={navigateToFilmDetail}
             />
             <Footer />
         </div>

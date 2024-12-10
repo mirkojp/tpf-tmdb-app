@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import fetchGenres from "./FetchGenres";
 
 const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
@@ -6,12 +6,10 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
     const [isGenreListVisible, setIsGenreListVisible] = useState(false);
     const [selectedGenreIds, setSelectedGenreIds] = useState([]);
     const [searchInputValue, setSearchInputValue] = useState(""); // Estado del input de texto
-    const [isGenreSelectDisabled, setIsGenreSelectDisabled] = useState(false); // Estado de deshabilitación de géneros
-    const [isTextInputDisabled, setIsTextInputDisabled] = useState(false); // Estado de deshabilitación del texto
     const genreDropdownRef = useRef(null);
 
     // Obtener los géneros (por ejemplo, en una simulación de API)
-    useState(() => {
+    useEffect(() => {
         const getGenres = async () => {
             const genresData = await fetchGenres();
             setGenres(genresData);
@@ -61,6 +59,9 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
             }
         });
     };
+
+    const isTextInputDisabled = selectedGenreIds.length > 0; // Deshabilitar input si hay géneros seleccionados
+    const isGenreSelectDisabled = searchInputValue.trim() !== ""; // Deshabilitar selección de géneros si hay texto en el input
 
     return (
         <div className="bg-[#0d253f] p-4 flex flex-col sm:flex-row justify-center items-center">
