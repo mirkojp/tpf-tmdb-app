@@ -4,11 +4,11 @@ import fetchGenres from "./FetchGenres";
 const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
     const [genres, setGenres] = useState([]);
     const [isGenreListVisible, setIsGenreListVisible] = useState(false);
-    const [selectedGenreIds, setSelectedGenreIds] = useState([]);
+    const [selectedGenreIds, setSelectedGenreIds] = useState([]); // Estado del input de generos
     const [searchInputValue, setSearchInputValue] = useState(""); // Estado del input de texto
     const genreDropdownRef = useRef(null);
 
-    // Obtener los géneros (por ejemplo, en una simulación de API)
+    // Obtener los géneros
     useEffect(() => {
         const getGenres = async () => {
             const genresData = await fetchGenres();
@@ -57,7 +57,7 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
             } else {
                 return [...prevSelectedGenres, genreId];
             }
-        });
+        }); 
     };
 
     const isTextInputDisabled = selectedGenreIds.length > 0; // Deshabilitar input si hay géneros seleccionados

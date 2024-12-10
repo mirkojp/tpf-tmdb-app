@@ -6,66 +6,68 @@ import Footer from "./Footer"; // Importando Footer prediseñado
 
 const TrailerPage = () => {
     const { id } = useParams();
-    const [trailerKey, setTrailerKey] = useState(null);
+    const [trailers, setTrailers] = useState([]); // Estado para múltiples tráileres
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const API_KEY = "113e41e17e0b6bd1dcc6191a324046d5";
     const BASE_URL = "https://api.themoviedb.org/3";
 
     useEffect(() => {
-        const fetchTrailer = async () => {
+        const fetchTrailers = async () => {
             try {
                 const response = await axios.get(
                     `${BASE_URL}/movie/${id}/videos?api_key=${API_KEY}&language=en-US`
                 );
 
                 if (response.data.results) {
-                    const trailer = response.data.results.find(
+                    const availableTrailers = response.data.results.filter(
                         (video) => video.type === "Trailer" && video.site === "YouTube"
                     );
-                    if (trailer) {
-                        setTrailerKey(trailer.key);
+                    if (availableTrailers.length > 0) {
+                        setTrailers(availableTrailers); // Guardar múltiples tráileres
                     } else {
-                        setError("Tráiler no disponible");
+                        setError("No hay tráileres disponibles");
                     }
                 }
                 setLoading(false);
             } catch (error) {
-                console.error("Error al obtener el tráiler:", error);
-                setError("Error al obtener el tráiler");
+                console.error("Error al obtener los tráileres:", error);
+                setError("Error al obtener los tráileres");
                 setLoading(false);
             }
         };
 
-        fetchTrailer();
+        fetchTrailers();
     }, [id]);
 
     return (
-        <div className="flex flex-col min-h-screen"> {/* Aplicamos flexbox y mínimo tamaño de pantalla */}
-            <Header /> {/* Header siempre visible */}
+        <div className="flex flex-col min-h-screen">
+            <Header />
 
             <div className="flex flex-col items-center p-8 bg-gray-100 rounded-lg shadow-lg flex-grow">
-                {/* Mostrar tráiler si está disponible, sino mensaje de error */}
                 {loading ? (
                     <p className="text-center">Cargando...</p>
                 ) : error ? (
                     <p className="text-center text-red-500">{error}</p>
-                ) : trailerKey ? (
-                    <div className="w-full max-w-5xl aspect-video">
-                        <iframe
-                            src={`https://www.youtube.com/embed/${trailerKey}`}
-                            title="Tráiler de la película"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            className="w-full h-full rounded-lg"
-                        ></iframe>
+                ) : trailers.length > 0 ? (
+                    <div className="flex flex-col space-y-6 w-full max-w-screen-lg">
+                        {trailers.map((trailer) => (
+                            <div key={trailer.id} className="w-full aspect-video">
+                                <iframe
+                                    src={`https://www.youtube.com/embed/${trailer.key}`}
+                                    title={`Tráiler de la película - ${trailer.name}`}
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                    className="w-full h-full rounded-lg"
+                                ></iframe>
+                            </div>
+                        ))}
                     </div>
                 ) : (
-                    <p className="text-gray-600">Tráiler no disponible</p>
+                    <p className="text-gray-600">Tráileres no disponibles</p>
                 )}
 
-                {/* Botones siempre visibles */}
                 <div className="mt-4 flex justify-center space-x-4">
                     <Link
                         to="/"
@@ -82,7 +84,7 @@ const TrailerPage = () => {
                 </div>
             </div>
 
-            <Footer /> {/* Footer siempre visible */}
+            <Footer />
         </div>
     );
 };
