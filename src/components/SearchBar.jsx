@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import fetchGenres from "./FetchGenres";
 
 const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
@@ -10,47 +10,37 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
     const [isTextInputDisabled, setIsTextInputDisabled] = useState(false); // Estado de deshabilitación del texto
     const genreDropdownRef = useRef(null);
 
-    useEffect(() => {
+    // Obtener los géneros (por ejemplo, en una simulación de API)
+    useState(() => {
         const getGenres = async () => {
             const genresData = await fetchGenres();
             setGenres(genresData);
         };
-
         getGenres();
     }, []);
 
-    // Maneja la lógica de deshabilitar campos
-    useEffect(() => {
-        if (searchInputValue.trim() !== "") {
-            setIsGenreSelectDisabled(true);
+    // Maneja el cambio de visibilidad de la lista de géneros
+    const handleToggleGenreList = () => {
+        if (!isGenreListVisible) {
+            // Si la lista se va a abrir, agregar el event listener
+            document.addEventListener("mousedown", handleClickOutside);
         } else {
-            setIsGenreSelectDisabled(false);
-        }
-
-        if (selectedGenreIds.length > 0) {
-            setIsTextInputDisabled(true);
-        } else {
-            setIsTextInputDisabled(false);
-        }
-    }, [searchInputValue, selectedGenreIds]);
-
-    // Cierra la lista de géneros al hacer clic afuera
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (
-                genreDropdownRef.current &&
-                !genreDropdownRef.current.contains(event.target)
-            ) {
-                setIsGenreListVisible(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-
-        return () => {
+            // Si la lista se va a cerrar, quitar el event listener
             document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
+        }
+        setIsGenreListVisible((prevState) => !prevState);
+    };
+
+    // Detecta clics fuera del dropdown
+    const handleClickOutside = (event) => {
+        if (
+            genreDropdownRef.current &&
+            !genreDropdownRef.current.contains(event.target)
+        ) {
+            setIsGenreListVisible(false);
+            document.removeEventListener("mousedown", handleClickOutside); // Limpia el event listener
+        }
+    };
 
     const handleSearch = (event) => {
         event.preventDefault();
@@ -70,10 +60,6 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
                 return [...prevSelectedGenres, genreId];
             }
         });
-    };
-
-    const handleToggleGenreList = () => {
-        setIsGenreListVisible((prevState) => !prevState);
     };
 
     return (
