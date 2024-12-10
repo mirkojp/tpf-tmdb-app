@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-
 import fetchGenres from "./FetchGenres";
 
 const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
     const [genres, setGenres] = useState([]);
     const [isGenreListVisible, setIsGenreListVisible] = useState(false);
     const [selectedGenreIds, setSelectedGenreIds] = useState([]);
+    const [searchInputValue, setSearchInputValue] = useState(""); // Estado del input de texto
+    const [isGenreSelectDisabled, setIsGenreSelectDisabled] = useState(false); // Estado de deshabilitación de géneros
+    const [isTextInputDisabled, setIsTextInputDisabled] = useState(false); // Estado de deshabilitación del texto
     const genreDropdownRef = useRef(null);
 
     useEffect(() => {
@@ -17,34 +19,50 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
         getGenres();
     }, []);
 
-    
+    // Maneja la lógica de deshabilitar campos
+    useEffect(() => {
+        if (searchInputValue.trim() !== "") {
+            setIsGenreSelectDisabled(true);
+        } else {
+            setIsGenreSelectDisabled(false);
+        }
+
+        if (selectedGenreIds.length > 0) {
+            setIsTextInputDisabled(true);
+        } else {
+            setIsTextInputDisabled(false);
+        }
+    }, [searchInputValue, selectedGenreIds]);
+
+    // Cierra la lista de géneros al hacer clic afuera
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (genreDropdownRef.current && !genreDropdownRef.current.contains(event.target)) {
+            if (
+                genreDropdownRef.current &&
+                !genreDropdownRef.current.contains(event.target)
+            ) {
                 setIsGenreListVisible(false);
             }
         };
 
         document.addEventListener("mousedown", handleClickOutside);
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
 
-
     const handleSearch = (event) => {
         event.preventDefault();
-        const searchQuery = event.target.search.value.trim();
-        // Establece el término de búsqueda y selecciona los géneros
-        setSearchQuery(searchQuery);
-        setSelectedGenres([...selectedGenreIds]); // Crea una nueva referencia para disparar el efecto
-        // console.log("hi")
-        // console.log(selectedGenreIds)
+        setSearchQuery(searchInputValue.trim());
+        setSelectedGenres([...selectedGenreIds]);
     };
 
-    //Maneja añadir y quitar generos
+    const handleInputChange = (event) => {
+        setSearchInputValue(event.target.value);
+    };
+
     const handleGenreChange = (genreId) => {
-        
         setSelectedGenreIds((prevSelectedGenres) => {
             if (prevSelectedGenres.includes(genreId)) {
                 return prevSelectedGenres.filter((id) => id !== genreId);
@@ -54,9 +72,6 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
         });
     };
 
-
-    
-    //Visibilidad de lista de generos
     const handleToggleGenreList = () => {
         setIsGenreListVisible((prevState) => !prevState);
     };
@@ -67,28 +82,34 @@ const SearchBar = ({ setSearchQuery, setSelectedGenres }) => {
                 <input
                     type="text"
                     name="search"
-                    placeholder="Busqueda..."
+                    placeholder="Búsqueda..."
                     className="p-2 rounded-md text-black"
+                    value={searchInputValue}
+                    onChange={handleInputChange}
+                    disabled={isTextInputDisabled} // Deshabilitar si hay géneros seleccionados
                 />
                 <div className="relative" ref={genreDropdownRef}>
                     <button
                         type="button"
                         onClick={handleToggleGenreList}
-                        className="bg-[#90cea1] text-black px-4 py-2 rounded-md font-bold hover:bg-[#01b4e4]"
+                        className={`bg-[#90cea1] text-black px-4 py-2 rounded-md font-bold hover:bg-[#01b4e4] ${isGenreSelectDisabled ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
+                        disabled={isGenreSelectDisabled} // Deshabilitar si hay texto en el input
                     >
-                        Generos
+                        Géneros
                     </button>
-                    {isGenreListVisible && (
+                    {isGenreListVisible && !isGenreSelectDisabled && (
                         <div
                             className="absolute top-full mt-2 bg-white p-2 rounded-md shadow-lg max-h-48 overflow-y-auto"
-                            style={{ width: "200px" }} // Adjust width as necessary
+                            style={{ width: "200px" }}
                         >
                             {genres.map((genre) => (
                                 <button
                                     key={genre.id}
                                     type="button"
                                     onClick={() => handleGenreChange(genre.id)}
-                                    className={`block text-black px-4 py-2 rounded-md mb-2 ${selectedGenreIds.includes(genre.id) ? "bg-[#01b4e4]" : ""}`}
+                                    className={`block text-black px-4 py-2 rounded-md mb-2 ${selectedGenreIds.includes(genre.id) ? "bg-[#01b4e4]" : ""
+                                        }`}
                                 >
                                     {genre.name}
                                 </button>
