@@ -22,7 +22,9 @@ const FetchFilms = ({ searchQuery, selectedGenres }) => {
                 const genreString = selectedGenres.join(",");
                 const endpoint = searchQuery
                     ? `${BASE_URL}/search/movie?api_key=${API_KEY}&language=es-ES&query=${searchQuery}&page=${currentPage}`
-                    : `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=es-ES&page=${currentPage}&with_genres=${genreString}`;
+                    : selectedGenres.length > 0
+                        ? `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=es-ES&page=${currentPage}&with_genres=${genreString}`
+                        : `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=es-ES&page=${currentPage}`;
 
                 const response = await axios.get(endpoint);
                 setFilms(response.data.results);
@@ -34,6 +36,7 @@ const FetchFilms = ({ searchQuery, selectedGenres }) => {
 
         getFilms();
     }, [currentPage, searchQuery, selectedGenres]);
+
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
